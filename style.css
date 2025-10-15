@@ -21,21 +21,21 @@ body {
     -webkit-backdrop-filter: blur(12px);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.575);
+    border: 1px solid rgb(255, 255, 255);
     max-height: 90vh;
     overflow-y: auto;
 }
 
 h1 {
-    color: #2c3e50;
+    color: #ffffff;
     text-align: center;
     margin-bottom: 10px;
 }
 
 p {
     text-align: center;
-    color: #c5c5c5;
+    color: #ffffff;
     margin-bottom: 30px;
 }
 
@@ -70,10 +70,11 @@ p {
     box-sizing: border-box;
     text-align: center;
     font-size: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
+    font-weight: bold;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
     background-color: rgba(0, 0, 0, 0.2);
-    color: #f0f0f0;
+    color: #ffffff;
     transition: all 0.3s ease;
 }
 
@@ -107,12 +108,12 @@ p {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
 .button-group button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
 }
 #steps-container {
     margin-top: 30px;
@@ -130,7 +131,7 @@ p {
 
 .step h3 {
     margin-top: 0;
-    color: #a77dfc;
+    color: #ffffff;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 10px;
 }
@@ -139,12 +140,14 @@ p {
     font-family: 'Courier New', Courier, monospace;
     white-space: pre;
     font-size: 1.1em;
+    font-weight: bold;
     background: rgba(0, 0, 0, 0.3);
     color: #e0e0e0;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
     overflow-x: auto;
+    text-align: center;
 }
 
 .final-calculation-grid {
@@ -191,7 +194,7 @@ p {
 }
 
 .cofactor-calculation {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 0, 0, 0.05);
     padding: 15px;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -204,7 +207,6 @@ p {
 }
 
 .cofactor-formula {
-    font-family: 'Courier New', Courier, monospace;
     font-style: italic;
     color: #b0b0b0;
 }
@@ -242,12 +244,13 @@ p {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    text-align: center;
 }
 
 .sarrus-diagonals p {
     margin: 0;
     text-align: left;
-    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
 }
 
 .sarrus-separator {
@@ -258,7 +261,7 @@ p {
 .term-sign {
     font-size: 24px;
     font-weight: bold;
-    color: #a77dfc;
+    color: #ffffff;
 }
 
 .term-value {
@@ -271,9 +274,9 @@ p {
 }
 
 .calculation {
-    font-style: italic;
-    color: #c5c5c5;
+    color: #ececec;
     margin-top: 10px;
+    font-weight: bold;
 }
 
 .result {
