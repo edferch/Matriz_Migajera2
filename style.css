@@ -1,26 +1,30 @@
 body {
     margin: 0;
-    height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: linear-gradient(to bottom right, purple, blue);
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: #333;
+    color: #f0f0f0;
     line-height: 1.6;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 20px;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
 }
 
 .container {
     max-width: 900px;
     width: 100%;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Para contener los elementos flotantes */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 h1 {
@@ -31,7 +35,7 @@ h1 {
 
 p {
     text-align: center;
-    color: #7f8c8d;
+    color: #c5c5c5;
     margin-bottom: 30px;
 }
 
@@ -42,8 +46,10 @@ p {
 
 #matrix-size {
     padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #f0f0f0;
     font-size: 16px;
 }
 
@@ -64,18 +70,20 @@ p {
     box-sizing: border-box;
     text-align: center;
     font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border-color 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #f0f0f0;
+    transition: all 0.3s ease;
 }
 
 .matrix-row input:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: #a77dfc;
+    box-shadow: 0 0 10px rgba(167, 125, 252, 0.5);
 }
 
 .equals-sign {
-    text-align: center;
     font-size: 18px;
     font-weight: bold;
 }
@@ -93,16 +101,18 @@ p {
     padding: 15px;
     font-size: 16px;
     font-weight: bold;
-    color: #fff;
-    background-color: #3498db;
+    color: #ffffff;
+    background: linear-gradient(45deg, #a77dfc, #6337d4);
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .button-group button:hover {
-    background-color: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 #steps-container {
     margin-top: 30px;
@@ -111,24 +121,26 @@ p {
 }
 
 .step {
-    background: #ecf0f1;
+    background: rgba(0, 0, 0, 0.2);
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .step h3 {
     margin-top: 0;
-    color: #2980b9;
-    border-bottom: 2px solid #bdc3c7;
+    color: #a77dfc;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     padding-bottom: 10px;
 }
 
 .matrix-display {
     font-family: 'Courier New', Courier, monospace;
     white-space: pre;
-    font-size: 16px;
-    background: #fff;
+    font-size: 1.1em;
+    background: rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -152,12 +164,12 @@ p {
     flex-direction: column;
     text-align: center; 
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.2em;
+    font-size: 1.3em;
 }
 
 .fraction-display .numerator {
     padding: 5px 10px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .fraction-display .denominator {
@@ -179,22 +191,22 @@ p {
 }
 
 .cofactor-calculation {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.05);
     padding: 15px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cofactor-calculation h5 {
     margin: 0 0 10px 0;
     font-size: 1.1em;
-    color: #34495e;
+    color: #d8bfff;
 }
 
 .cofactor-formula {
     font-family: 'Courier New', Courier, monospace;
     font-style: italic;
-    color: #7f8c8d;
+    color: #b0b0b0;
 }
 
 .calculation-container {
@@ -206,10 +218,10 @@ p {
     flex-wrap: wrap;
     align-items: center;
     gap: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .determinant-term {
@@ -246,7 +258,7 @@ p {
 .term-sign {
     font-size: 24px;
     font-weight: bold;
-    color: #3498db;
+    color: #a77dfc;
 }
 
 .term-value {
@@ -260,12 +272,12 @@ p {
 
 .calculation {
     font-style: italic;
-    color: #7f8c8d;
+    color: #c5c5c5;
     margin-top: 10px;
 }
 
 .result {
     font-weight: bold;
-    color: #27ae60;
-    font-size: 1.1em;
+    color: #50fa7b; /* Un verde lima brillante para buen contraste */
+    font-size: 1.2em;
 }
