@@ -1,5 +1,5 @@
 import { Fraction } from './fraction.js';
-import { solveWithCramer, invertMatrix, formatMatrixForDisplay } from './matrix.js';
+import { solveWithCramer, invertMatrix, formatMatrixForDisplay, solveWithGaussJordan, invertMatrixWithGaussJordan } from './matrix.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos de la nueva interfaz
@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const calculatorInterface = document.getElementById('calculator-interface');
     const cramerBtn = document.getElementById('cramer-btn');
     const adjInverseBtn = document.getElementById('adj-inverse-btn');
+    const gaussJordanBtn = document.getElementById('gauss-jordan-btn');
+    const gaussInverseBtn = document.getElementById('gauss-inverse-btn');
     const calculateButton = document.getElementById('calculate-button');
 
     // Elementos de la calculadora
@@ -76,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             matrixA.push(row);
 
-            if (currentMethod === 'cramer') {
+            if (currentMethod === 'cramer' || currentMethod === 'gauss-jordan') { // Inversa no usa vectorB
                 const resultInput = document.querySelector(`input[data-row='${i}'][data-col='${size}']`);
                 vectorB.push(Fraction.fromNumber(parseFloat(resultInput.value) || 0));
             }
@@ -214,6 +216,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 content += `<p class="calculation">${step.calculation}</p>`;
             }
             
+            if (step.type === 'row_operation') {
+                content = `<h3>${step.operation}</h3>`; // La descripción de la operación
+                if (step.matrixBefore) {
+                    content += `<p>Matriz antes de la operación:</p>`;
+                    content += `<div class="matrix-display">${formatMatrixForDisplay(step.matrixBefore)}</div>`;
+                }
+                content += `<p>Matriz después de la operación:</p>`; // La matriz resultante
+                content += `<div class="matrix-display">${formatMatrixForDisplay(step.matrix)}</div>`;
+
+                if (step.detailedCalculations) {
+                    content += `<div class="detailed-calculations"><h4>Cálculos detallados:</h4><ul>`;
+                    step.detailedCalculations.forEach(calc => {
+                        content += `<li>${calc}</li>`;
+                    });
+                    content += `</ul></div>`;
+                }
+            }
+
             stepDiv.innerHTML = content;
             stepsContainer.appendChild(stepDiv);
         });
@@ -242,8 +262,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setupCalculator('adj-inverse', false);
     });
 
+    gaussJordanBtn.addEventListener('click', () => {
+        setupCalculator('gauss-jordan', true);
+    });
+
+    gaussInverseBtn.addEventListener('click', () => {
+        setupCalculator('gauss-inverse', false);
+    });
+
     sizeSelector.addEventListener('change', () => {
-        const showVectorB = currentMethod === 'cramer';
+        const showVectorB = currentMethod === 'cramer' || currentMethod === 'gauss-jordan';
         createMatrixInputs(showVectorB);
     });
     
@@ -266,6 +294,35 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (currentMethod === 'adj-inverse') {
             const { matrixA } = getMatrixFromDOM();
             const result = invertMatrix(matrixA);
+
+            displaySteps(result.steps);
+
+            if (result.error) {
+                displayError(result.error);
+            } else {
+                const finalSolutionDiv = document.createElement('div');
+                finalSolutionDiv.className = 'step';
+                finalSolutionDiv.innerHTML = `<h3>Resultado Final: Matriz Inversa A⁻¹</h3><div class="matrix-display">${formatMatrixForDisplay(result.inverse)}</div>`;
+                stepsContainer.appendChild(finalSolutionDiv);
+            }
+        } else if (currentMethod === 'gauss-jordan') {
+            const { matrixA, vectorB } = getMatrixFromDOM();
+            const result = solveWithGaussJordan(matrixA, vectorB);
+
+            displaySteps(result.steps);
+
+            if (result.error) {
+                displayError(result.error);
+            } else {
+                const finalSolutionDiv = document.createElement('div');
+                finalSolutionDiv.className = 'step';
+                let solutionText = result.solution.map(v => `${v.name} = ${v.value}`).join(', ');
+                finalSolutionDiv.innerHTML = `<h3>Solución Final</h3><p class="result">${solutionText}</p>`;
+                stepsContainer.appendChild(finalSolutionDiv);
+            }
+        } else if (currentMethod === 'gauss-inverse') {
+            const { matrixA } = getMatrixFromDOM();
+            const result = invertMatrixWithGaussJordan(matrixA);
 
             displaySteps(result.steps);
 

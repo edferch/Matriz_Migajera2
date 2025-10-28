@@ -157,6 +157,115 @@ export const solveWithCramer = (matrixA, vectorB) => {
 };
 
 /**
+ * Realiza la eliminación de Gauss-Jordan en una matriz aumentada.
+ * @param {Array<Array<[number, number]>>} augMatrix - La matriz aumentada [A|b].
+ * @returns {{matrix: Array<Array<[number, number]>>, steps: Array<object>, error: string|null}}
+ */
+const gaussJordanElimination = (augMatrix) => {
+    const steps = [];
+    let matrix = augMatrix.map(row => [...row]);
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+
+    steps.push({
+        title: "Paso 1: Matriz Aumentada Inicial",
+        type: 'row_operation',
+        operation: "Comenzamos con la matriz aumentada.",
+        matrix: matrix.map(r => [...r])
+    });
+
+    let pivotRow = 0;
+    for (let col = 0; col < numRows && pivotRow < numRows; col++) {
+        // Encontrar una fila con un pivote no nulo
+        let matrixBeforeOperation = matrix.map(r => [...r]); // Capturar el estado antes de buscar pivote/intercambiar
+        let i = pivotRow;
+        while (i < numRows && matrix[i][col][0] === 0) {
+            i++;
+        }
+
+        if (i < numRows) {
+            // Intercambiar filas si es necesario
+            if (i !== pivotRow) {
+                [matrix[i], matrix[pivotRow]] = [matrix[pivotRow], matrix[i]];
+                // La operación de intercambio se registra con la matriz antes del intercambio y después
+                steps.push({
+                    type: 'row_operation',
+                    operation: `Intercambio de filas: R${pivotRow + 1} ↔ R${i + 1}`,
+                    matrix: matrix.map(r => [...r])
+                });
+            }
+
+            // Normalizar la fila del pivote para que el pivote sea 1
+            const pivotValue = matrix[pivotRow][col];
+            if (pivotValue[0] !== 1 || pivotValue[1] !== 1) {
+                matrixBeforeOperation = matrix.map(r => [...r]); // Capturar el estado antes de normalizar
+                const detailedCalculations = [];
+                for (let j = col; j < numCols; j++) {
+                    const oldValue = matrix[pivotRow][j];
+                    matrix[pivotRow][j] = Fraction.divide(matrix[pivotRow][j], pivotValue);
+                    const newValue = matrix[pivotRow][j];
+                    detailedCalculations.push(
+                        `Fila ${pivotRow + 1}, Col ${j + 1}: ${Fraction.toString(oldValue)} / (${Fraction.toString(pivotValue)}) = ${Fraction.toString(newValue)}`
+                    );
+                }
+                steps.push({
+                    type: 'row_operation',
+                    operation: `Normalizar pivote: R${pivotRow + 1} → R${pivotRow + 1} / (${Fraction.toString(pivotValue)})`,
+                    matrix: matrix.map(r => [...r]),
+                    matrixBefore: matrixBeforeOperation,
+                    detailedCalculations: detailedCalculations,
+                });
+            }
+
+            // Eliminar otros elementos en la columna del pivote
+            for (let k = 0; k < numRows; k++) {
+                if (k !== pivotRow) {
+                    const factor = matrix[k][col];
+                    matrixBeforeOperation = matrix.map(r => [...r]); // Capturar el estado antes de la eliminación
+                    if (factor[0] !== 0) {
+                        const detailedCalculations = [];
+                        for (let j = col; j < numCols; j++) {
+                            const oldValue = matrix[k][j];
+                            const term = Fraction.multiply(factor, matrix[pivotRow][j]);
+                            matrix[k][j] = Fraction.subtract(matrix[k][j], term);
+                            const newValue = matrix[k][j];
+                            detailedCalculations.push(
+                                `Fila ${k + 1}, Col ${j + 1}: ${Fraction.toString(oldValue)} - (${Fraction.toString(factor)} * ${Fraction.toString(matrixBeforeOperation[pivotRow][j])}) = ${Fraction.toString(newValue)}`
+                            );
+                        }
+                        steps.push({
+                            type: 'row_operation',
+                            operation: `Eliminación: R${k + 1} → R${k + 1} - (${Fraction.toString(factor)}) * R${pivotRow + 1}`,
+                            matrix: matrix.map(r => [...r]),
+                            matrixBefore: matrixBeforeOperation,
+                            detailedCalculations: detailedCalculations,
+                        });
+                    }
+                }
+            }
+            pivotRow++;
+        }
+    }
+
+    // Comprobar si hay soluciones inconsistentes o infinitas
+    // Para Ax=b, numCols = numRows + 1. Si una fila [0...0|k] con k!=0, es inconsistente.
+    if (numCols === numRows + 1) { 
+        for (let i = pivotRow; i < numRows; i++) {
+            if (matrix[i][numRows][0] !== 0) {
+                return { matrix, steps, error: "El sistema es inconsistente y no tiene solución (0 = k)." };
+            }
+        }
+    }
+    if (pivotRow < numRows) {
+        return { matrix, steps, error: "La matriz es singular (no invertible) o el sistema tiene infinitas soluciones." };
+    }
+
+    steps.push({ title: "Paso Final: Forma Escalonada Reducida", matrix: matrix.map(r => [...r]) });
+
+    return { matrix, steps, error: null };
+};
+
+/**
  * @param {number[][]} matrix 
  * @returns {number[][]} 
  */
@@ -175,6 +284,60 @@ const multiplyMatrixByScalar = (matrix, scalar) =>
  * @param {number[][]} matrixA
  * @returns {object} 
  */
+export const solveWithGaussJordan = (matrixA, vectorB) => {
+    const variableNames = ['x', 'y', 'z', 'w', 'v'];
+    const size = matrixA.length;
+
+    // Crear la matriz aumentada [A|b]
+    const augmentedMatrix = matrixA.map((row, i) => [...row, vectorB[i]]);
+
+    const { matrix: finalMatrix, steps, error } = gaussJordanElimination(augmentedMatrix);
+
+    if (error) {
+        return { solution: null, error, steps };
+    }
+
+    // Extraer la solución de la matriz final
+    const solution = [];
+    for (let i = 0; i < size; i++) {
+        const varName = variableNames[i] || `x${i + 1}`;
+        const value = finalMatrix[i][size];
+        solution.push({ name: varName, value: Fraction.toString(value) });
+    }
+
+    return { solution, steps, error: null };
+};
+
+/**
+ * @param {number[][]} matrixA
+ * @returns {object}
+ */
+export const invertMatrixWithGaussJordan = (matrixA) => {
+    const size = matrixA.length;
+
+    // Crear la matriz identidad I
+    const identityMatrix = Array(size).fill(0).map((_, i) =>
+        Array(size).fill(0).map((__, j) => (i === j ? ONE : ZERO))
+    );
+
+    // Crear la matriz aumentada [A | I]
+    const augmentedMatrix = matrixA.map((row, i) => [...row, ...identityMatrix[i]]);
+
+    const { matrix: finalMatrix, steps, error } = gaussJordanElimination(augmentedMatrix);
+
+    if (error) {
+        return { inverse: null, error, steps };
+    }
+
+    // Extraer la matriz inversa (la parte derecha de la matriz final)
+    const inverse = finalMatrix.map(row => row.slice(size));
+
+    steps[0].operation = "Comenzamos con la matriz aumentada [A|I].";
+
+    return { inverse, steps, error: null };
+};
+
+
 export const invertMatrix = (matrixA) => {
     const steps = [];
     const { value: detA, calculationTree: detACalcTree } = determinant(matrixA);

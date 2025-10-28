@@ -367,3 +367,19 @@ p {
 .back-link:hover {
     text-decoration: underline;
 }
+
+.detailed-calculations {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #374151;
+    border-radius: 5px;
+    border: 1px solid #6b7280;
+}
+
+.detailed-calculations h4 {
+    margin: 0 0 10px 0;
+    font-size: 1em;
+    color: #d1d5db;
+    border-bottom: 1px solid #4b5563;
+    padding-bottom: 5px;
+}
