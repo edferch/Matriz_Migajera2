@@ -1,6 +1,25 @@
 import { Fraction } from './fraction.js';
 import { solveWithCramer, invertMatrix, formatMatrixForDisplay, solveWithGaussJordan, invertMatrixWithGaussJordan } from './matrix.js';
 
+/**
+ * Formatea una matriz para mostrarla, con opciones para resaltar filas.
+ * @param {Array<Array<[number, number]>>} matrix La matriz a formatear.
+ * @param {object} [highlights={}] Opciones de resaltado.
+ * @param {number} highlights.pivot Índice de la fila pivote.
+ * @param {number} highlights.modified Índice de la fila modificada.
+ * @param {Array<number>} highlights.swap Índices de las filas intercambiadas.
+ * @returns {string} El HTML de la matriz formateada.
+ */
+const formatMatrixWithHighlight = (matrix, highlights = {}) => {
+    return matrix.map((row, rowIndex) => {
+        const isPivot = highlights.pivot === rowIndex;
+        const isModified = highlights.modified === rowIndex;
+        const isSwap = highlights.swap?.includes(rowIndex);
+        const rowClass = isPivot ? 'row-pivot' : isModified ? 'row-modified' : isSwap ? 'row-swap' : '';
+        return `<span class="${rowClass}">| ${row.map(val => Fraction.toString(val).padStart(8)).join(' ')} |</span>`;
+    }).join('\n');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Elementos de la nueva interfaz
     const methodSelection = document.getElementById('method-selection');
@@ -11,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const adjInverseBtn = document.getElementById('adj-inverse-btn');
     const gaussJordanBtn = document.getElementById('gauss-jordan-btn');
     const gaussInverseBtn = document.getElementById('gauss-inverse-btn');
+    const backToSelectionBtn = document.getElementById('back-to-selection-btn');
+    const backToHomeBtn = document.getElementById('back-to-home-btn');
+    const clearButton = document.getElementById('clear-button');
     const calculateButton = document.getElementById('calculate-button');
 
     // Elementos de la calculadora
@@ -164,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let content = `<h3>${step.title}</h3>`;
             
             if (step.matrix && !step.cofactorDetails) { // Evitar duplicar la matriz de cofactores
-                content += `<div class="matrix-display">${formatMatrixForDisplay(step.matrix)}</div>`;
+                content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrix)}</div>`;
             }
 
             if (step.cofactorDetails) {
@@ -182,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                 });
                 content += `</div>`;
-                content += `<h4>Matriz de Cofactores Resultante:</h4><div class="matrix-display">${formatMatrixForDisplay(step.matrix)}</div>`;
+                content += `<h4>Matriz de Cofactores Resultante:</h4><div class="matrix-display">${formatMatrixWithHighlight(step.matrix)}</div>`;
             }
             if (step.type === 'inverse_multiplication') {
                 content += `<p class="calculation">Ahora, multiplicamos la matriz adjunta por el escalar 1/det(A):</p>`;
@@ -192,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="matrix-display">${formatMatrixForDisplay(step.adjugateMatrix)}</div>
                                 <span class="equals-sign">=</span>
                                 <div></div>
-                                <div class="matrix-display">${formatMatrixForDisplay(step.finalMatrix)}</div>
+                                <div class="matrix-display">${formatMatrixWithHighlight(step.finalMatrix)}</div>
                             </div>`;
             }
             if (step.type === 'cramer_division') {
@@ -220,10 +242,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 content = `<h3>${step.operation}</h3>`; // La descripción de la operación
                 if (step.matrixBefore) {
                     content += `<p>Matriz antes de la operación:</p>`;
-                    content += `<div class="matrix-display">${formatMatrixForDisplay(step.matrixBefore)}</div>`;
+                    content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrixBefore, step.highlight)}</div>`;
                 }
                 content += `<p>Matriz después de la operación:</p>`; // La matriz resultante
-                content += `<div class="matrix-display">${formatMatrixForDisplay(step.matrix)}</div>`;
+                content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrix, step.highlight)}</div>`;
 
                 if (step.detailedCalculations) {
                     content += `<div class="detailed-calculations"><h4>Cálculos detallados:</h4><ul>`;
@@ -244,6 +266,19 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     const displayError = (message) => {
         stepsContainer.innerHTML = `<div class="step" style="border-color: #e74c3c;"><h3 style="color: #e74c3c;">Error</h3><p>${message}</p></div>`;
+    };
+
+    const clearMatrix = () => {
+        const inputs = matrixContainer.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        stepsContainer.innerHTML = ''; // También limpia los resultados
+    };
+
+    const resetToSelection = () => {
+        calculatorInterface.classList.add('hidden');
+        methodSelection.classList.remove('hidden');
     };
 
     const setupCalculator = (method, showVectorB) => {
@@ -269,6 +304,14 @@ document.addEventListener('DOMContentLoaded', () => {
     gaussInverseBtn.addEventListener('click', () => {
         setupCalculator('gauss-inverse', false);
     });
+
+    backToSelectionBtn.addEventListener('click', resetToSelection);
+
+    backToHomeBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+
+    clearButton.addEventListener('click', clearMatrix);
 
     sizeSelector.addEventListener('change', () => {
         const showVectorB = currentMethod === 'cramer' || currentMethod === 'gauss-jordan';
@@ -302,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const finalSolutionDiv = document.createElement('div');
                 finalSolutionDiv.className = 'step';
-                finalSolutionDiv.innerHTML = `<h3>Resultado Final: Matriz Inversa A⁻¹</h3><div class="matrix-display">${formatMatrixForDisplay(result.inverse)}</div>`;
+                finalSolutionDiv.innerHTML = `<h3>Resultado Final: Matriz Inversa A⁻¹</h3><div class="matrix-display">${formatMatrixWithHighlight(result.inverse)}</div>`;
                 stepsContainer.appendChild(finalSolutionDiv);
             }
         } else if (currentMethod === 'gauss-jordan') {
@@ -331,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const finalSolutionDiv = document.createElement('div');
                 finalSolutionDiv.className = 'step';
-                finalSolutionDiv.innerHTML = `<h3>Resultado Final: Matriz Inversa A⁻¹</h3><div class="matrix-display">${formatMatrixForDisplay(result.inverse)}</div>`;
+                finalSolutionDiv.innerHTML = `<h3>Resultado Final: Matriz Inversa A⁻¹</h3><div class="matrix-display">${formatMatrixWithHighlight(result.inverse)}</div>`;
                 stepsContainer.appendChild(finalSolutionDiv);
             }
         }

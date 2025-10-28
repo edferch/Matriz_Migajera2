@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Álgebra Lineal - Matriz Migajera²</title>
+    <title>Calculadora de Álgebra Lineal - Matriz Migajera</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,7 +11,6 @@
 </head>
 <body>
     <div class="container">
-        <a href="index.html" class="back-link">&larr; Volver al Inicio</a>
         <h1>Calculadora de Álgebra Lineal</h1>
         <p>Selecciona un método de resolución. La calculadora muestra el proceso paso a paso con fracciones.</p>
 
@@ -23,6 +22,10 @@
         </div>
 
         <div id="calculator-interface" class="hidden">
+            <div class="navigation-header">
+                <button id="back-to-home-btn" class="nav-button">&larr; Inicio</button>
+                <button id="back-to-selection-btn" class="nav-button">Elegir Otro Método &rarr;</button>
+            </div>
             <div class="controls">
                 <label for="matrix-size">Tamaño de la matriz (n x n):</label>
                 <select id="matrix-size">
@@ -33,7 +36,10 @@
                 </select>
             </div>
             <div id="matrix-container"></div>
-            <div class="button-group"><button id="calculate-button">Calcular</button></div>
+            <div class="button-group">
+                <button id="clear-button" class="secondary">Limpiar Matriz</button>
+                <button id="calculate-button">Calcular</button>
+            </div>
             <div id="steps-container"></div>
         </div>
     </div>

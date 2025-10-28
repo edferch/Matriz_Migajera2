@@ -191,6 +191,7 @@ const gaussJordanElimination = (augMatrix) => {
                 steps.push({
                     type: 'row_operation',
                     operation: `Intercambio de filas: R${pivotRow + 1} ↔ R${i + 1}`,
+                    highlight: { swap: [pivotRow, i] },
                     matrix: matrix.map(r => [...r])
                 });
             }
@@ -213,6 +214,7 @@ const gaussJordanElimination = (augMatrix) => {
                     operation: `Normalizar pivote: R${pivotRow + 1} → R${pivotRow + 1} / (${Fraction.toString(pivotValue)})`,
                     matrix: matrix.map(r => [...r]),
                     matrixBefore: matrixBeforeOperation,
+                    highlight: { pivot: pivotRow },
                     detailedCalculations: detailedCalculations,
                 });
             }
@@ -238,6 +240,7 @@ const gaussJordanElimination = (augMatrix) => {
                             operation: `Eliminación: R${k + 1} → R${k + 1} - (${Fraction.toString(factor)}) * R${pivotRow + 1}`,
                             matrix: matrix.map(r => [...r]),
                             matrixBefore: matrixBeforeOperation,
+                            highlight: { pivot: pivotRow, modified: k },
                             detailedCalculations: detailedCalculations,
                         });
                     }

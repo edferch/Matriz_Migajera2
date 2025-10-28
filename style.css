@@ -3,6 +3,12 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 6px 20px rgba(251, 146, 60, 0.3); }
+    50% { transform: scale(1.03); box-shadow: 0 8px 30px rgba(251, 146, 60, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 6px 20px rgba(251, 146, 60, 0.3); }
+}
+
 body {
     margin: 0;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -10,14 +16,15 @@ body {
     background-image: radial-gradient(circle at top left, rgba(55, 65, 81, 0.5), transparent 40%),
                       radial-gradient(circle at bottom right, rgba(251, 146, 60, 0.2), transparent 50%);
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    overflow: hidden; /* Evita el scroll en toda la página */
     color: #d1d5db; /* Gris claro */
     line-height: 1.6;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .container {
@@ -30,14 +37,16 @@ body {
     border-radius: 10px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
     border: 1px solid #4b5563; /* Borde gris oscuro */
-    max-height: 90vh;
+    max-height: calc(100vh - 40px);
     overflow-y: auto;
     animation: fadeIn 0.6s ease-out forwards;
 }
 
 /* Estilos para la página de inicio */
 .landing-container {
+    max-width: 800px; /* Reducimos el ancho para que sea más compacto */
     text-align: center;
+    padding: 20px 40px; /* Reducimos aún más el padding vertical */
 }
 
 .subtitle {
@@ -46,7 +55,7 @@ body {
 }
 
 .team-section {
-    margin: 40px 0;
+    margin: 25px 0; /* Reducimos más el margen vertical */
 }
 
 .team-members {
@@ -57,24 +66,32 @@ body {
 }
 
 .member {
-    background: #4b5563;
-    padding: 20px;
+    background: linear-gradient(145deg, #4b5563, #374151);
+    padding: 15px; /* Reducimos el padding de la tarjeta */
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .member img {
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 100px;  /* Hacemos la imagen más pequeña */
+    height: 100px; /* Hacemos la imagen más pequeña */
     object-fit: cover;
     border: 3px solid #fb923c; /* Naranja */
+    transition: transform 0.3s ease;
 }
 
 .member:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(251, 146, 60, 0.5);
+}
+
+.member:hover img {
+    transform: scale(1.05);
 }
 
 h1 {
@@ -84,10 +101,18 @@ h1 {
     font-weight: 700;
 }
 
+.landing-container h1 {
+    font-size: 3.2rem; /* Reducimos un poco el tamaño del título */
+}
+
+.title-accent {
+    color: #fb923c;
+}
+
 p {
     text-align: center;
     color: #d1d5db;
-    margin-bottom: 30px;
+    margin-bottom: 15px; /* Reducimos más el margen inferior */
 }
 
 .controls {
@@ -172,10 +197,11 @@ p {
 }
 
 .cta-button {
-    margin-top: 20px;
+    margin-top: 10px; /* Reducimos el margen superior del botón */
     display: inline-block;
     width: auto;
     padding: 15px 40px;
+    animation: pulse 2.5s infinite;
 }
 
 .button-group button:not(:disabled):hover, .cta-button:hover {
@@ -217,6 +243,22 @@ p {
     border: 1px solid #6b7280;
     overflow-x: auto;
     text-align: center;
+}
+
+.matrix-display span {
+    display: block;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.row-pivot {
+    background-color: rgba(251, 146, 60, 0.25); /* Naranja semitransparente */
+}
+.row-modified {
+    background-color: rgba(59, 130, 246, 0.25); /* Azul semitransparente */
+}
+.row-swap {
+    background-color: rgba(139, 92, 246, 0.25); /* Violeta semitransparente */
 }
 
 .final-calculation-grid {
@@ -358,14 +400,28 @@ p {
     display: none;
 }
 
-.back-link {
-    color: #fb923c;
-    text-decoration: none;
+.navigation-header {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
-    display: inline-block;
+    border-bottom: 1px solid #4b5563;
+    padding-bottom: 15px;
 }
-.back-link:hover {
-    text-decoration: underline;
+
+.nav-button {
+    background: none;
+    border: 1px solid #6b7280;
+    color: #d1d5db;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #4b5563;
+    color: #fb923c;
 }
 
 .detailed-calculations {
