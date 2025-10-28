@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Álgebra Lineal - Matriz Migajera²</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Volver al Inicio</a>
+        <h1>Calculadora de Álgebra Lineal</h1>
+        <p>Selecciona un método de resolución. La calculadora muestra el proceso paso a paso con fracciones.</p>
+
+        <div id="method-selection" class="button-group">
+            <button id="cramer-btn">Resolver por Cramer</button>
+            <button id="adj-inverse-btn">Inversa por Adjunta</button>
+            <button id="gauss-jordan-btn" disabled>Resolver por Gauss-Jordan</button>
+            <button id="gauss-inverse-btn" disabled>Inversa por Gauss-Jordan</button>
+        </div>
+
+        <div id="calculator-interface" class="hidden">
+            <div class="controls">
+                <label for="matrix-size">Tamaño de la matriz (n x n):</label>
+                <select id="matrix-size">
+                    <option value="2">2x2</option>
+                    <option value="3" selected>3x3</option>
+                    <option value="4">4x4</option>
+                    <option value="5">5x5</option>
+                </select>
+            </div>
+            <div id="matrix-container"></div>
+            <div class="button-group"><button id="calculate-button">Calcular</button></div>
+            <div id="steps-container"></div>
+        </div>
+    </div>
+    <script src="js/ui.js" type="module"></script>
+</body>
+</html>

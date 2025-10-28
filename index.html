@@ -3,36 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Matrices y Sistemas de Ecuaciones</title>
+    <title>Matriz Migajera² - Inicio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Calculadora de Álgebra Lineal</h1>
-        <p>Resuelve sistemas de ecuaciones (Cramer) y calcula la matriz inversa (Adjunta) de <strong>n x n</strong> (hasta 5x5) mostrando el proceso paso a paso con fracciones.</p>
-
-        <div class="controls">
-            <label for="matrix-size">Tamaño del sistema (n):</label>
-            <select id="matrix-size">
-                <option value="2">2x2</option>
-                <option value="3" selected>3x3</option>
-                <option value="4">4x4</option>
-                <option value="5">5x5</option>
-            </select>
+    <div class="container landing-container">
+        <h1>Matriz Migajera²</h1>
+        <p class="subtitle">Expertos en la resolución de problemas de Álgebra Lineal.</p>
+        
+        <div class="team-section">
+            <h2>Nuestro Equipo</h2>
+            <div class="team-members">
+                <div class="member">
+                    <img src="/img/IMG-20241228-WA0023.jpg" alt="Foto de miembro del equipo">
+                    <h3>Eder Fernando Chacón Rosales</h3>
+                    <p>Carné: 1290-25-12941</p>
+                </div>
+                <div class="member">
+                    <img src="/img/Captura de pantalla 2025-08-11 132015.png" alt="Foto de miembro del equipo">
+                    <h3>Iker David Hernández Mérida</h3>
+                    <p>Carné: 1290-25-</p>
+                </div>
+                <!-- Agrega más miembros según sea necesario -->
+            </div>
         </div>
 
-        <div id="matrix-container">
-        </div>
-
-        <div class="button-group">
-            <button id="solve-button">Resolver Sistema (Cramer)</button>
-            <button id="inverse-button">Calcular Inversa (Adjunta)</button>
-        </div>
-
-        <div id="steps-container">
-        </div>
+        <a href="calculadora.html" class="cta-button">Ir a la Calculadora</a>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
