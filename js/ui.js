@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const resultInput = document.createElement('input');
                 resultInput.type = 'number';
-                resultInput.placeholder = `b${i + 1}`;
+                resultInput.placeholder = `t${i + 1}`;
                 resultInput.dataset.row = i;
                 resultInput.dataset.col = size; 
                 rowDiv.appendChild(resultInput);
