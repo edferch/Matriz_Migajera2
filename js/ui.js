@@ -1,15 +1,6 @@
 import { Fraction } from './fraction.js';
 import { solveWithCramer, invertMatrix, formatMatrixForDisplay, solveWithGaussJordan, invertMatrixWithGaussJordan } from './matrix.js';
 
-/**
- * Formatea una matriz para mostrarla, con opciones para resaltar filas.
- * @param {Array<Array<[number, number]>>} matrix La matriz a formatear.
- * @param {object} [highlights={}] Opciones de resaltado.
- * @param {number} highlights.pivot Índice de la fila pivote.
- * @param {number} highlights.modified Índice de la fila modificada.
- * @param {Array<number>} highlights.swap Índices de las filas intercambiadas.
- * @returns {string} El HTML de la matriz formateada.
- */
 const formatMatrixWithHighlight = (matrix, highlights = {}) => {
     return matrix.map((row, rowIndex) => {
         const isPivot = highlights.pivot === rowIndex;
@@ -21,9 +12,8 @@ const formatMatrixWithHighlight = (matrix, highlights = {}) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos de la nueva interfaz
     const methodSelection = document.getElementById('method-selection');
-    if (!methodSelection) return; // Salir si no estamos en la página de la calculadora
+    if (!methodSelection) return; 
 
     const calculatorInterface = document.getElementById('calculator-interface');
     const cramerBtn = document.getElementById('cramer-btn');
@@ -35,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearButton = document.getElementById('clear-button');
     const calculateButton = document.getElementById('calculate-button');
 
-    // Elementos de la calculadora
     const sizeSelector = document.getElementById('matrix-size');
     const matrixContainer = document.getElementById('matrix-container');
     const stepsContainer = document.getElementById('steps-container');
@@ -44,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const variableNames = ['x', 'y', 'z', 'w', 'v'];
 
-    // Modificado para mostrar/ocultar la columna de resultados 'b'
     const createMatrixInputs = (showVectorB = true) => {
         const size = parseInt(sizeSelector.value, 10);
         matrixContainer.innerHTML = ''; 
@@ -84,9 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         matrixContainer.appendChild(grid);
     };
 
-    /**
-     * @returns {{matrixA: number[][], vectorB: number[]}}
-     */
     const getMatrixFromDOM = () => {
         const size = parseInt(sizeSelector.value, 10);
         const matrixA = [];
@@ -100,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             matrixA.push(row);
 
-            if (currentMethod === 'cramer' || currentMethod === 'gauss-jordan') { // Inversa no usa vectorB
+            if (currentMethod === 'cramer' || currentMethod === 'gauss-jordan') { 
                 const resultInput = document.querySelector(`input[data-row='${i}'][data-col='${size}']`);
                 vectorB.push(Fraction.fromNumber(parseFloat(resultInput.value) || 0));
             }
@@ -108,10 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return { matrixA, vectorB };
     };
 
-    /**
-     * @param {object} tree 
-     * @returns {string} 
-     */
     const buildCalculationHtml = (tree) => {
         if (!tree) return '';
 
@@ -174,18 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<p class="calculation">Determinante = <strong>${Fraction.toString(tree.result)}</strong></p>`;
     };
 
-    /**
-     * @param {Array<object>} steps
-     */
     const displaySteps = (steps) => {
-        stepsContainer.innerHTML = ''; // Limpiar resultados anteriores
+        stepsContainer.innerHTML = ''; 
         steps.forEach(step => {
             const stepDiv = document.createElement('div');
             stepDiv.className = 'step';
 
             let content = `<h3>${step.title}</h3>`;
             
-            if (step.matrix && !step.cofactorDetails) { // Evitar duplicar la matriz de cofactores
+            if (step.matrix && !step.cofactorDetails) { 
                 content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrix)}</div>`;
             }
 
@@ -239,12 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             if (step.type === 'row_operation') {
-                content = `<h3>${step.operation}</h3>`; // La descripción de la operación
+                content = `<h3>${step.operation}</h3>`; 
                 if (step.matrixBefore) {
                     content += `<p>Matriz antes de la operación:</p>`;
                     content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrixBefore, step.highlight)}</div>`;
                 }
-                content += `<p>Matriz después de la operación:</p>`; // La matriz resultante
+                content += `<p>Matriz después de la operación:</p>`; 
                 content += `<div class="matrix-display">${formatMatrixWithHighlight(step.matrix, step.highlight)}</div>`;
 
                 if (step.detailedCalculations) {
@@ -261,9 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    /**
-     * @param {string} message
-     */
     const displayError = (message) => {
         stepsContainer.innerHTML = `<div class="step" style="border-color: #e74c3c;"><h3 style="color: #e74c3c;">Error</h3><p>${message}</p></div>`;
     };
@@ -273,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach(input => {
             input.value = '';
         });
-        stepsContainer.innerHTML = ''; // También limpia los resultados
+        stepsContainer.innerHTML = ''; 
     };
 
     const resetToSelection = () => {

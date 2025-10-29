@@ -12,12 +12,12 @@
 body {
     margin: 0;
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #111827; /* Base más oscura */
+    background: #111827; 
     background-image: radial-gradient(circle at top left, rgba(55, 65, 81, 0.5), transparent 40%),
                       radial-gradient(circle at bottom right, rgba(251, 146, 60, 0.2), transparent 50%);
     background-repeat: no-repeat;
-    overflow: hidden; /* Evita el scroll en toda la página */
-    color: #d1d5db; /* Gris claro */
+    overflow: hidden; 
+    color: #d1d5db; 
     line-height: 1.6;
     display: flex;
     justify-content: center;
@@ -30,23 +30,22 @@ body {
 .container {
     max-width: 900px;
     width: 100%;
-    background: #374151; /* Gris medio */
+    background: #374151; 
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    border: 1px solid #4b5563; /* Borde gris oscuro */
+    border: 1px solid #4b5563; 
     max-height: calc(100vh - 40px);
     overflow-y: auto;
     animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* Estilos para la página de inicio */
 .landing-container {
-    max-width: 800px; /* Reducimos el ancho para que sea más compacto */
+    max-width: 800px; 
     text-align: center;
-    padding: 20px 40px; /* Reducimos aún más el padding vertical */
+    padding: 20px 40px; 
 }
 
 .subtitle {
@@ -55,7 +54,7 @@ body {
 }
 
 .team-section {
-    margin: 25px 0; /* Reducimos más el margen vertical */
+    margin: 25px 0; 
 }
 
 .team-members {
@@ -67,7 +66,7 @@ body {
 
 .member {
     background: linear-gradient(145deg, #4b5563, #374151);
-    padding: 15px; /* Reducimos el padding de la tarjeta */
+    padding: 15px; 
     border-radius: 8px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -77,10 +76,10 @@ body {
 
 .member img {
     border-radius: 50%;
-    width: 100px;  /* Hacemos la imagen más pequeña */
-    height: 100px; /* Hacemos la imagen más pequeña */
+    width: 100px;  
+    height: 100px; 
     object-fit: cover;
-    border: 3px solid #fb923c; /* Naranja */
+    border: 3px solid #fb923c; 
     transition: transform 0.3s ease;
 }
 
@@ -114,14 +113,14 @@ body {
 
 
 h1 {
-    color: #f9fafb; /* Blanco casi puro */
+    color: #f9fafb; 
     text-align: center;
     margin-bottom: 10px;
     font-weight: 700;
 }
 
 .landing-container h1 {
-    font-size: 3.2rem; /* Reducimos un poco el tamaño del título */
+    font-size: 3.2rem; 
 }
 
 .title-accent {
@@ -131,7 +130,7 @@ h1 {
 p {
     text-align: center;
     color: #d1d5db;
-    margin-bottom: 15px; /* Reducimos más el margen inferior */
+    margin-bottom: 15px; 
 }
 
 .controls {
@@ -156,7 +155,7 @@ p {
 }
 
 .matrix-row {
-    display: contents; /* Permite que los hijos se comporten como si fueran hijos directos del grid */
+    display: contents; 
 }
 
 .matrix-row input {
@@ -175,7 +174,7 @@ p {
 
 .matrix-row input:focus {
     outline: none;
-    border-color: #fb923c; /* Naranja */
+    border-color: #fb923c; 
     box-shadow: 0 0 10px rgba(251, 146, 60, 0.4);
 }
 
@@ -197,8 +196,8 @@ p {
     padding: 15px;
     font-size: 16px;
     font-weight: bold;
-    color: #111827; /* Texto oscuro para contraste */
-    background: #fb923c; /* Naranja */
+    color: #111827; 
+    background: #fb923c; 
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -216,7 +215,7 @@ p {
 }
 
 .cta-button {
-    margin-top: 10px; /* Reducimos el margen superior del botón */
+    margin-top: 10px; 
     display: inline-block;
     width: auto;
     padding: 15px 40px;
@@ -226,7 +225,7 @@ p {
 .button-group button:not(:disabled):hover, .cta-button:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(251, 146, 60, 0.3);
-    background: #fdba74; /* Naranja más claro al pasar el ratón */
+    background: #fdba74; 
 }
 #steps-container {
     margin-top: 30px;
@@ -245,7 +244,7 @@ p {
 
 .step h3 {
     margin-top: 0;
-    color: #fb923c; /* Naranja */
+    color: #fb923c; 
     border-bottom: 1px solid #6b7280;
     padding-bottom: 10px;
 }
@@ -271,13 +270,13 @@ p {
 }
 
 .row-pivot {
-    background-color: rgba(251, 146, 60, 0.25); /* Naranja semitransparente */
+    background-color: rgba(251, 146, 60, 0.25); 
 }
 .row-modified {
-    background-color: rgba(59, 130, 246, 0.25); /* Azul semitransparente */
+    background-color: rgba(59, 130, 246, 0.25); 
 }
 .row-swap {
-    background-color: rgba(139, 92, 246, 0.25); /* Violeta semitransparente */
+    background-color: rgba(139, 92, 246, 0.25); 
 }
 
 .final-calculation-grid {
@@ -333,7 +332,7 @@ p {
 .cofactor-calculation h5 {
     margin: 0 0 10px 0;
     font-size: 1.1em;
-    color: #fb923c; /* Naranja */
+    color: #fb923c; 
 }
 
 .cofactor-formula {
@@ -411,7 +410,7 @@ p {
 
 .result {
     font-weight: bold;
-    color: #6ee7b7; /* Un verde menta brillante para buen contraste */
+    color: #6ee7b7; 
     font-size: 1.2em;
 }
 
